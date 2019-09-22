@@ -13,7 +13,6 @@ char to_lower(char a){
 }
 
 int strccmp(char* s1, char* s2, int ci){
-
     int ret = 0;
     char c1, c2;
     while( *s1!= 0 && *s2 != 0){
@@ -47,6 +46,7 @@ uniq(int fd, int opt_c, int opt_i, int opt_d)
         curr_line[cl] = buf[i];
         cl ++ ;
         if(buf[i] == '\n'){
+            /* last_line == 0 means no last line input, curr_line is the first line in stdinput*/
         if (last_line == 0 || strccmp(last_line, curr_line, opt_i)!=0) {
             /*if last != current print out current */
             if (write(1, curr_line, cl) != cl) {
@@ -59,18 +59,19 @@ uniq(int fd, int opt_c, int opt_i, int opt_d)
             if(last_line != 0){
             /*clear last line*/
                 free(last_line);
-            last_line = 0;
+                last_line = 0;
             }
             last_line = curr_line;
 
             /* new curr line */
-                    curr_line = malloc(sizeof(char)*1024);
+            curr_line = malloc(sizeof(char)*1024);
             cl = 0;
-                    memset(curr_line, 0, sizeof(char)*1024);
-        } else {
+            memset(curr_line, 0, sizeof(char)*1024);
+        } 
+        else {
         /*if strcmp last == curr? no output clear curr_line*/
             cl = 0;
-                    memset(curr_line, 0, sizeof(char)*1024);
+            memset(curr_line, 0, sizeof(char)*1024);
             }
         }
     }   
@@ -89,16 +90,17 @@ main(int argc, char *argv[])
     char* filename = 0;
 
     for(i = 1; i < argc; i++){
-    if(strcmp(argv[i],"-c") == 0){
-        opt_c = 1;
-    } else if (strcmp(argv[i], "-d") == 0){
-        opt_d = 1;
-    } else if (strcmp(argv[i], "-i")== 0){
-        opt_i = 1;
-    } else {
-        filename = argv[i];     
-    } 
+        if(strcmp(argv[i],"-c") == 0){
+            opt_c = 1;
+        } else if (strcmp(argv[i], "-d") == 0){
+            opt_d = 1;
+        } else if (strcmp(argv[i], "-i")== 0){
+            opt_i = 1;
+        } else {
+            filename = argv[i];     
+        }    
     }
+    /* filename == 0 same as filename point to a nullptr */
     if(filename == 0){
         uniq(0, opt_c, opt_i, opt_d);
         exit();
