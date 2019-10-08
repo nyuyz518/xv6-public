@@ -89,3 +89,22 @@ sys_uptime(void)
   release(&tickslock);
   return xticks;
 }
+
+//adding a new system call as per lecture note 4 
+int
+sys_hello(void) {
+    int n;
+    if(argint(0, &n) < 0)
+        return -1;
+    cprintf("Hello world, I've added a system call! %d\n", n);
+    return 0;
+}
+
+int
+sys_homework(void) {
+    int n;
+    if(argint(0, &n) < 0)
+        return -1;
+    cprintf("OMG HW2 is difficult! %d\n", n);
+    return 0;
+}

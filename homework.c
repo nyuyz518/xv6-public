@@ -3,9 +3,8 @@
 #include "user.h"
 
 int main(void) {
-    hello(5);
+    homework(3);
     exit();
 }
 
-
-
+    

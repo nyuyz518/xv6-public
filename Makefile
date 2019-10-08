@@ -185,6 +185,8 @@ UPROGS=\
 	_zombie\
 	_hello\
 	_uniq\
+	_homework\
+	_shell\
 #	_usertests\
 
 fs.img: mkfs README $(UPROGS)
